@@ -1,16 +1,70 @@
-# React + Vite
+# JStyles Barbershop Web
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Sitio web oficial de **JStyles Barbershop**, desarrollado para presentar los servicios de la barbería, mostrar el catálogo de productos y facilitar el contacto directo con los clientes mediante WhatsApp.
 
-Currently, two official plugins are available:
+## Sobre el proyecto
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+JStyles Barbershop Web es una aplicación web responsive desarrollada con React.
 
-## React Compiler
+El sitio permite:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Consultar servicios y precios de barbería.
+- Explorar un catálogo de productos.
+- Filtrar productos por categoría y subcategoría.
+- Buscar productos por nombre o marca.
+- Ver la ficha individual de cada producto.
+- Consultar variantes disponibles.
+- Acceder a productos relacionados.
+- Contactar directamente con JStyles por WhatsApp.
+- Acceder a Instagram y TikTok.
+- Consultar ubicaciones y horarios.
+- Navegar correctamente desde dispositivos móviles y escritorio.
 
-## Expanding the ESLint configuration
+## Tecnologías utilizadas
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- React
+- Vite
+- JavaScript
+- Tailwind CSS
+- React Router
+- Motion
+- React Icons
+- HTML5
+- CSS3
+
+## Categorías del catálogo
+
+Actualmente el catálogo incluye:
+
+- Barbería
+  - Styling y fijación
+  - Cuidado capilar
+  - Color y matización
+  - Barba y afeitado
+  - Accesorios
+  - Herramientas
+
+- Cuidado personal
+  - Perfumería
+  - Cuidado facial
+  - Cuidado corporal
+
+- Vapers
+  - Desechables
+
+## Funcionalidades principales
+
+### Catálogo dinámico
+
+Los productos se administran desde archivos de datos JavaScript y se muestran dinámicamente en la interfaz.
+
+### Búsqueda y filtros
+
+El usuario puede buscar productos y filtrarlos por categoría y subcategoría.
+
+### Ficha individual de producto
+
+Cada producto cuenta con una página individual mediante rutas dinámicas:
+
+```text
+/producto/:slug
