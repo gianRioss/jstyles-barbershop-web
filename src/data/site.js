@@ -1,4 +1,4 @@
-export const whatsappNumber = "5491126257040";
+export const whatsappNumber = "5491130182979";
 export const instagramUrl = "https://www.instagram.com/jstyles_haircuts/";
 export const tiktokUrl = "https://www.tiktok.com/@jstyles_haircuts";
 
