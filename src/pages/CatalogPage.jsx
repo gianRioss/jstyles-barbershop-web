@@ -1,10 +1,8 @@
 import { Link } from "react-router";
 import { useMemo, useState } from "react";
-
 import { motion as Motion, useReducedMotion } from "motion/react";
 
 import { FaWhatsapp } from "react-icons/fa";
-
 import {
   FiArrowLeft,
   FiArrowRight,
@@ -207,7 +205,6 @@ export default function CatalogPage() {
               className="hidden items-center gap-2 rounded-full bg-amber-400 px-5 py-2.5 text-sm font-bold text-black transition duration-300 hover:-translate-y-0.5 hover:bg-amber-300 sm:flex"
             >
               <FaWhatsapp />
-
               Consultar
             </a>
           </div>
@@ -458,11 +455,8 @@ export default function CatalogPage() {
           </Motion.div>
 
           {productosFiltrados.length > 0 ? (
-            <Motion.div
+            <div
               key={`${categoriaActiva}-${subcategoriaActiva}-${busqueda}`}
-              initial="hidden"
-              animate="visible"
-              variants={staggerContainer}
               className="grid gap-x-6 gap-y-12 sm:grid-cols-2 xl:grid-cols-3"
             >
               {productosFiltrados.map((item) => {
@@ -474,7 +468,24 @@ export default function CatalogPage() {
                   <Motion.article
                     key={item.id}
                     layout
-                    variants={staggerItem}
+                    initial={
+                      reducirMovimiento
+                        ? false
+                        : {
+                            opacity: 0,
+                            y: 32,
+                            scale: 0.97,
+                          }
+                    }
+                    whileInView={{
+                      opacity: 1,
+                      y: 0,
+                      scale: 1,
+                    }}
+                    viewport={{
+                      once: true,
+                      amount: 0.2,
+                    }}
                     whileHover={
                       reducirMovimiento
                         ? undefined
@@ -482,8 +493,18 @@ export default function CatalogPage() {
                             y: -6,
                           }
                     }
+                    whileTap={
+                      reducirMovimiento
+                        ? undefined
+                        : {
+                            scale: 0.98,
+                          }
+                    }
                     transition={{
-                      duration: 0.25,
+                      duration: reducirMovimiento
+                        ? 0
+                        : 0.55,
+                      ease: [0.22, 1, 0.36, 1],
                     }}
                     className="group"
                   >
@@ -530,7 +551,6 @@ export default function CatalogPage() {
                           className="flex items-center justify-between rounded-2xl bg-white px-4 py-4 text-sm font-bold text-black shadow-xl transition hover:bg-neutral-200"
                         >
                           Ver producto
-
                           <FiArrowRight />
                         </Link>
 
@@ -543,7 +563,6 @@ export default function CatalogPage() {
                           className="flex items-center justify-center gap-2 rounded-2xl bg-amber-400 px-4 py-4 text-sm font-bold text-black shadow-xl transition hover:bg-amber-300"
                         >
                           <FaWhatsapp />
-
                           Consultar
                         </a>
                       </div>
@@ -631,7 +650,6 @@ export default function CatalogPage() {
                           className="inline-flex items-center gap-2 text-sm font-bold text-white transition hover:text-amber-300"
                         >
                           Ver producto
-
                           <FiArrowRight />
                         </Link>
 
@@ -644,7 +662,6 @@ export default function CatalogPage() {
                           className="inline-flex items-center gap-2 text-sm font-bold text-amber-400 transition hover:text-amber-300"
                         >
                           <FaWhatsapp />
-
                           Consultar
                         </a>
                       </div>
@@ -667,7 +684,7 @@ export default function CatalogPage() {
                   </Motion.article>
                 );
               })}
-            </Motion.div>
+            </div>
           ) : (
             <Motion.div
               initial="hidden"
@@ -749,7 +766,6 @@ export default function CatalogPage() {
                   className="mt-8 inline-flex items-center gap-3 rounded-full bg-amber-400 px-6 py-3.5 text-sm font-bold text-black transition duration-300 hover:-translate-y-0.5 hover:bg-amber-300"
                 >
                   <FaWhatsapp className="text-lg" />
-
                   Hablar con JStyles
                 </a>
               </div>

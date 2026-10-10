@@ -63,17 +63,20 @@ export default function HomePage() {
     hidden: {
       opacity: 0,
       x: reducirMovimiento ? 0 : 35,
-      scale: reducirMovimiento ? 1 : 0.985,
-    },
+      y: reducirMovimiento ? 0 : 24,
+      scale: reducirMovimiento ? 1 : 0.96,
+   },
 
     visible: {
-      opacity: 1,
-      x: 0,
-      scale: 1,
+       opacity: 1,
+       x: 0,
+       y: 0,
+       scale: 1,
+
       transition: {
         duration: reducirMovimiento ? 0 : 0.9,
         ease: [0.22, 1, 0.36, 1],
-      },
+     },
     },
   };
 
@@ -334,10 +337,15 @@ export default function HomePage() {
 
             <Motion.div
               initial="hidden"
-              animate="visible"
+              whileInView="visible"
+              viewport={{
+                once: true,
+                amount: 0.2,
+              }}
               variants={revealRight}
               className="relative"
             >
+
               <div className="absolute -inset-4 rounded-[40px] bg-amber-400/3 blur-2xl" />
 
               <div className="group relative overflow-hidden rounded-4xl border border-white/8 bg-[#101010]">
@@ -573,31 +581,49 @@ export default function HomePage() {
           </Motion.div>
 
           {destacados.length > 0 ? (
-            <Motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{
-                once: true,
-                amount: 0.08,
-              }}
-              variants={staggerContainer}
-              className="grid gap-x-6 gap-y-10 sm:grid-cols-2 xl:grid-cols-3"
-            >
+            
+            <div className="grid gap-x-6 gap-y-10 sm:grid-cols-2 xl:grid-cols-3">
+            
               {destacados.map((item) => (
-                <Motion.article
+               <Motion.article
                   key={item.id}
-                  variants={staggerItem}
-                  whileHover={
+                  initial={
                     reducirMovimiento
-                      ? undefined
-                      : {
-                          y: -6,
-                        }
-                  }
-                  transition={{
-                    duration: 0.25,
-                  }}
-                  className="group"
+                    ? false
+                    : {
+                        opacity: 0,
+                        y: 32,
+                        scale: 0.97,
+                    }
+                 }
+                 whileInView={{
+                   opacity: 1,
+                   y: 0,
+                   scale: 1,
+                 }}
+                 viewport={{
+                  once: true,
+                  amount: 0.2,
+                 }}
+                 whileHover={
+                   reducirMovimiento
+                     ? undefined
+                     : {
+                         y: -6,
+                   }
+                 }
+                 whileTap={
+                   reducirMovimiento
+                     ? undefined
+                     : {
+                        scale: 0.98,
+                       }
+                 }
+                 transition={{
+                   duration: reducirMovimiento ? 0 : 0.55,
+                   ease: [0.22, 1, 0.36, 1],
+                 }}
+                 className="group"
                 >
                   <div className="relative overflow-hidden rounded-[28px] border border-white/[0.07] bg-[#0d0d0d] transition duration-500 group-hover:border-amber-400/20">
                     <div className="relative flex aspect-[4/4.4] items-center justify-center overflow-hidden">
@@ -678,7 +704,7 @@ export default function HomePage() {
                   </div>
                 </Motion.article>
               ))}
-            </Motion.div>
+            </div>
           ) : (
             <div className="rounded-[28px] border border-white/[0.07] bg-white/2.5 px-6 py-16 text-center text-neutral-500">
               Próximamente nuevos productos destacados.
