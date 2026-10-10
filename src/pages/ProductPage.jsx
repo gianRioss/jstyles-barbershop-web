@@ -71,10 +71,8 @@ export default function ProductPage() {
       .filter(
         (item) =>
           item.id !== producto.id &&
-          (
-            item.subcategoria === producto.subcategoria ||
-            item.categoria === producto.categoria
-          )
+          (item.subcategoria === producto.subcategoria ||
+            item.categoria === producto.categoria)
       )
       .slice(0, 3);
   }, [producto]);
@@ -104,14 +102,18 @@ export default function ProductPage() {
     hidden: {
       opacity: 0,
       x: reducirMovimiento ? 0 : -30,
+      y: reducirMovimiento ? 0 : 20,
+      scale: reducirMovimiento ? 1 : 0.97,
     },
 
     visible: {
       opacity: 1,
       x: 0,
+      y: 0,
+      scale: 1,
 
       transition: {
-        duration: reducirMovimiento ? 0 : 0.75,
+        duration: reducirMovimiento ? 0 : 0.8,
         ease: [0.22, 1, 0.36, 1],
       },
     },
@@ -130,7 +132,7 @@ export default function ProductPage() {
   const staggerItem = {
     hidden: {
       opacity: 0,
-      y: reducirMovimiento ? 0 : 18,
+      y: reducirMovimiento ? 0 : 22,
     },
 
     visible: {
@@ -138,7 +140,7 @@ export default function ProductPage() {
       y: 0,
 
       transition: {
-        duration: reducirMovimiento ? 0 : 0.5,
+        duration: reducirMovimiento ? 0 : 0.55,
         ease: [0.22, 1, 0.36, 1],
       },
     },
@@ -190,22 +192,21 @@ export default function ProductPage() {
   // VARIANTES
   // =====================================================
 
-  const variantes =
-    Array.isArray(producto.variantes)
-      ? producto.variantes.map((variante) => {
-          if (typeof variante === "string") {
-            return {
-              nombre: variante,
-              imagen: null,
-            };
-          }
-
+  const variantes = Array.isArray(producto.variantes)
+    ? producto.variantes.map((variante) => {
+        if (typeof variante === "string") {
           return {
-            nombre: variante.nombre,
-            imagen: variante.imagen || null,
+            nombre: variante,
+            imagen: null,
           };
-        })
-      : [];
+        }
+
+        return {
+          nombre: variante.nombre,
+          imagen: variante.imagen || null,
+        };
+      })
+    : [];
 
   // =====================================================
   // WHATSAPP
@@ -334,14 +335,25 @@ export default function ProductPage() {
 
               <Motion.div
                 initial="hidden"
-                animate="visible"
+                whileInView="visible"
+                viewport={{
+                  once: true,
+                  amount: 0.15,
+                }}
                 variants={revealLeft}
+                whileTap={
+                  reducirMovimiento
+                    ? undefined
+                    : {
+                        scale: 0.985,
+                      }
+                }
                 className="relative"
               >
                 <div className="absolute -inset-5 rounded-[45px] bg-amber-400/2.5 blur-3xl" />
 
                 <div className="group relative overflow-hidden rounded-4xl border border-white/[0.07] bg-[#0d0d0d]">
-                  <div className="flex aspect-square items-center justify-center">
+                  <div className="flex aspect-square items-center justify-center overflow-hidden">
                     <img
                       src={producto.imagen || fallbackImage}
                       alt={producto.nombre}
@@ -366,7 +378,11 @@ export default function ProductPage() {
 
               <Motion.div
                 initial="hidden"
-                animate="visible"
+                whileInView="visible"
+                viewport={{
+                  once: true,
+                  amount: 0.12,
+                }}
                 variants={staggerContainer}
                 className="flex flex-col justify-center"
               >
@@ -471,7 +487,7 @@ export default function ProductPage() {
                     href={`https://wa.me/${whatsappNumber}?text=${mensajeWhatsapp}`}
                     target="_blank"
                     rel="noreferrer"
-                    className="group inline-flex items-center justify-center gap-3 rounded-full bg-amber-400 px-7 py-4 text-sm font-bold text-black transition duration-300 hover:-translate-y-0.5 hover:bg-amber-300"
+                    className="group inline-flex items-center justify-center gap-3 rounded-full bg-amber-400 px-7 py-4 text-sm font-bold text-black transition duration-300 hover:-translate-y-0.5 hover:bg-amber-300 active:scale-[0.98]"
                   >
                     <FaWhatsapp className="text-lg" />
 
@@ -482,7 +498,7 @@ export default function ProductPage() {
 
                   <Link
                     to="/catalogo"
-                    className="inline-flex items-center justify-center gap-3 rounded-full border border-white/10 px-7 py-4 text-sm font-semibold text-neutral-300 transition duration-300 hover:-translate-y-0.5 hover:border-white/25 hover:bg-white/4 hover:text-white"
+                    className="inline-flex items-center justify-center gap-3 rounded-full border border-white/10 px-7 py-4 text-sm font-semibold text-neutral-300 transition duration-300 hover:-translate-y-0.5 hover:border-white/25 hover:bg-white/4 hover:text-white active:scale-[0.98]"
                   >
                     Seguir viendo productos
                   </Link>
@@ -557,20 +573,28 @@ export default function ProductPage() {
                 </h2>
               </Motion.div>
 
-              <Motion.div
-                initial="hidden"
-                whileInView="visible"
-                viewport={{
-                  once: true,
-                  amount: 0.08,
-                }}
-                variants={staggerContainer}
-                className="grid gap-x-6 gap-y-10 sm:grid-cols-2 xl:grid-cols-3"
-              >
+              <div className="grid gap-x-6 gap-y-10 sm:grid-cols-2 xl:grid-cols-3">
                 {relacionados.map((item) => (
                   <Motion.article
                     key={item.id}
-                    variants={staggerItem}
+                    initial={
+                      reducirMovimiento
+                        ? false
+                        : {
+                            opacity: 0,
+                            y: 32,
+                            scale: 0.97,
+                          }
+                    }
+                    whileInView={{
+                      opacity: 1,
+                      y: 0,
+                      scale: 1,
+                    }}
+                    viewport={{
+                      once: true,
+                      amount: 0.2,
+                    }}
                     whileHover={
                       reducirMovimiento
                         ? undefined
@@ -578,8 +602,18 @@ export default function ProductPage() {
                             y: -6,
                           }
                     }
+                    whileTap={
+                      reducirMovimiento
+                        ? undefined
+                        : {
+                            scale: 0.98,
+                          }
+                    }
                     transition={{
-                      duration: 0.25,
+                      duration: reducirMovimiento
+                        ? 0
+                        : 0.55,
+                      ease: [0.22, 1, 0.36, 1],
                     }}
                     className="group"
                   >
@@ -605,7 +639,9 @@ export default function ProductPage() {
                         <div className="mb-2 flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-neutral-500">
                           {item.marca && (
                             <>
-                              <span>{item.marca}</span>
+                              <span>
+                                {item.marca}
+                              </span>
 
                               <span className="text-neutral-700">
                                 /
@@ -639,7 +675,7 @@ export default function ProductPage() {
                     </Link>
                   </Motion.article>
                 ))}
-              </Motion.div>
+              </div>
             </div>
           </section>
         )}
